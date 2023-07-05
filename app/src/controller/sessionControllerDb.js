@@ -1,6 +1,7 @@
 const UserModel = require("../model/userModel")
 const jwt = require("jsonwebtoken")
 const {SEC_KEY} = process.env
+const bcrypt = require("bcrypt")
 
 // signup
 
@@ -8,6 +9,11 @@ module.exports.signup = async function(req,res){
 
     // validation
     // email unique in db
+
+    let pass = req.body.password;
+    let encpass = bcrypt.hashSync(pass.toString(),10);
+    console.log(encpass);
+    req.body.password = encpass;
 
     let user = UserModel({
         firstName:req.body.firstName,
@@ -30,11 +36,13 @@ module.exports.login = async function(req,res){
     let user = await UserModel.findOne({email:email})
 
     if(user){
-        if(user.password == password){
+        if(bcrypt.compareSync(password.toString(),user.password) == true){
+
             token = jwt.sign({"userId":user._id,"role":"user"},SEC_KEY,{expiresIn:"1m"})
             refreshtoken = jwt.sign({"userId":user._id,"role":"user"},SEC_KEY,{expiresIn:"1d"})
             res.json({data:user,msg:"Login Done",rcode:200,token:token,refreshtoken:refreshtoken})
         }else{
+
             res.json({data:req.body,msg:"Invalid Credentials",rcode:-9})
         }
     }  
