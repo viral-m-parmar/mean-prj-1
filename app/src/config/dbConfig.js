@@ -8,6 +8,7 @@ module.exports.getDbConnection = function(){
     mongoose.connect(MONGO_URI).then(()=>{
         console.log("db connected sucsessfully")
     })
+    .catch((err) => {console.log(err)})
 }
 
 
