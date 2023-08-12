@@ -5,5 +5,7 @@ const route = express.Router()
 
 route.post("/signupDb",sessionControllerDb.signup)
 route.post("/loginDb",sessionControllerDb.login)
+route.get("/getAllUsers",sessionControllerDb.getAllUsers)
+
 
 module.exports = route;

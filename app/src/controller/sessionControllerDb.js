@@ -2,6 +2,8 @@ const UserModel = require("../model/userModel")
 const jwt = require("jsonwebtoken")
 const {SEC_KEY} = process.env
 const bcrypt = require("bcrypt")
+const { model } = require("mongoose")
+const userModel = require("../model/userModel")
 
 // signup
 
@@ -46,4 +48,14 @@ module.exports.login = async function(req,res){
             res.json({data:req.body,msg:"Invalid Credentials",rcode:-9})
         }
     }  
+}
+
+model.exports.getAllUsers = function(req,res){
+    
+    userModel.find().then(data=>{
+        console.log(data)
+        res.json({msg:"User Reterived",data:data}).status(200);
+    }).catch(err=>{
+        res.json({msg:"SMW",data:err}).status(302);
+    })
 }
