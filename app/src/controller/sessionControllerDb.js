@@ -59,3 +59,14 @@ module.exports.getAllUsers = function(req,res){
         res.json({msg:"SMW",data:err}).status(302);
     })
 }
+
+module.exports.deleteUserById = function(req,res){
+    
+    let userId = req.params.userId;
+
+    userModel.findByIdAndDelete({ _id: userId }).then((data) => {
+        res.json({ "msg": "Product Deleted", "data": data, "rcode": 200 })
+    }).catch((err) => {
+        res.json({ "msg": "SMW", "rcode": -9, "data": err })
+    })
+}
