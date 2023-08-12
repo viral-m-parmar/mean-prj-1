@@ -50,7 +50,7 @@ module.exports.login = async function(req,res){
     }  
 }
 
-modual.exports.getAllUsers = function(req,res){
+module.exports.getAllUsers = function(req,res){
     
     userModel.find().then(data=>{
         console.log(data)
